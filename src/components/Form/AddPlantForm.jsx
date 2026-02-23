@@ -1,12 +1,10 @@
-const AddPlantForm = ( handleAddPlantData) => {
-  /* const handleAddPlantData = (e) => {
-  e.preventDefault(); // optional, react-hook-form auto prevent করে
-  console.log(e.target);
-}; */
+// import { useForm } from "react-hook-form"
 
+
+const AddPlantForm = ({ handleAddPlantData, handleSubmit, register, handleImageUpload }) => {
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
-      <form onSubmit={handleAddPlantData} >
+      <form onSubmit={handleSubmit(handleAddPlantData)} >
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-10'>
           <div className='space-y-6'>
             {/* Name */}
@@ -16,13 +14,14 @@ const AddPlantForm = ( handleAddPlantData) => {
               </label>
               <input
                 className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                name='name'
+                {...register('name', { required: true })}
                 id='name'
                 type='text'
                 placeholder='Plant Name'
                 required
               />
             </div>
+
             {/* Category */}
             <div className='space-y-1 text-sm'>
               <label htmlFor='category' className='block text-gray-600 '>
@@ -31,7 +30,7 @@ const AddPlantForm = ( handleAddPlantData) => {
               <select
                 required
                 className='w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                name='category'
+                {...register('category', { required: true })}
               >
                 <option value='Indoor'>Indoor</option>
                 <option value='Outdoor'>Outdoor</option>
@@ -49,7 +48,7 @@ const AddPlantForm = ( handleAddPlantData) => {
                 id='description'
                 placeholder='Write plant description here...'
                 className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 '
-                name='description'
+                {...register('description', { required: true })}
               ></textarea>
             </div>
           </div>
@@ -63,7 +62,7 @@ const AddPlantForm = ( handleAddPlantData) => {
                 </label>
                 <input
                   className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='price'
+                  {...register('price', { required: true })}
                   id='price'
                   type='number'
                   placeholder='Price per unit'
@@ -78,7 +77,7 @@ const AddPlantForm = ( handleAddPlantData) => {
                 </label>
                 <input
                   className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='quantity'
+                  {...register('quantity', { required: true })}
                   id='quantity'
                   type='number'
                   placeholder='Available quantity'
@@ -92,6 +91,7 @@ const AddPlantForm = ( handleAddPlantData) => {
                 <div className='flex flex-col w-max mx-auto text-center'>
                   <label>
                     <input
+                      onClick={handleImageUpload}
                       className='text-sm cursor-pointer w-36 hidden'
                       type='file'
                       name='image'

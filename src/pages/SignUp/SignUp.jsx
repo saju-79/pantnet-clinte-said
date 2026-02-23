@@ -3,8 +3,11 @@ import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
+import { UplodeImge } from '../../hooks/api/UplodeImge'
+import { useState } from 'react'
 
 const SignUp = () => {
+  const { url , seturl } = useState('')
   const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
   const navigate = useNavigate()
   // form submit handler
@@ -14,7 +17,13 @@ const SignUp = () => {
     const name = form.name.value
     const email = form.email.value
     const password = form.password.value
-
+    const file = form.image?.files[0];
+    if (!file) {
+      console.log("No file selected");
+      return;
+    }
+    const urlimage = await UplodeImge(file)
+    seturl(urlimage)
     try {
       //2. User Registration
       const result = await createUser(email, password)
@@ -22,7 +31,7 @@ const SignUp = () => {
       //3. Save username & profile photo
       await updateUserProfile(
         name,
-        'https://lh3.googleusercontent.com/a/ACg8ocKUMU3XIX-JSUB80Gj_bYIWfYudpibgdwZE1xqmAGxHASgdvCZZ=s96-c'
+        url
       )
       console.log(result)
 
