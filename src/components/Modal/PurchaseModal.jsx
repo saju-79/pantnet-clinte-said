@@ -2,6 +2,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 
 const PurchaseModal = ({ closeModal, isOpen }) => {
   // Total Price Calculation
+  
 
   return (
     <Dialog

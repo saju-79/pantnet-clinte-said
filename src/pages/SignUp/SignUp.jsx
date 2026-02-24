@@ -3,12 +3,12 @@ import { FcGoogle } from 'react-icons/fc'
 import useAuth from '../../hooks/useAuth'
 import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
-import { UplodeImge } from '../../hooks/api/UplodeImge'
-import { useState } from 'react'
+// import { useState } from 'react'
+import axios from 'axios'
 
 const SignUp = () => {
-  const { url , seturl } = useState('')
-  const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth()
+  const { createUser, updateUserProfile, signInWithGoogle, loading ,setUser, } = useAuth()
+  // const { setupurl, setSetupurl } = useState('')
   const navigate = useNavigate()
   // form submit handler
   const handleSubmit = async event => {
@@ -22,16 +22,25 @@ const SignUp = () => {
       console.log("No file selected");
       return;
     }
-    const urlimage = await UplodeImge(file)
-    seturl(urlimage)
+    // 1. store the img from data 
+    const formData = new FormData();
+    formData.append("image", file);
+    // 🔑 Replace YOUR_IMGBB_API_KEY with your imgbb API key
+
     try {
+      const apiKey = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_key}`;
+      // 2nd step
+      const res = await axios.post(apiKey, formData);
+      const urlimage = res.data.data.display_url;
+      console.log(urlimage, "adsadds asiii")
+      setUser(urlimage)
+      
       //2. User Registration
       const result = await createUser(email, password)
-
       //3. Save username & profile photo
       await updateUserProfile(
         name,
-        url
+        urlimage,
       )
       console.log(result)
 

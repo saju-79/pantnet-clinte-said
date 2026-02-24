@@ -1,7 +1,15 @@
 // import { useForm } from "react-hook-form"
 
+import { TbFidgetSpinner } from "react-icons/tb"
+const AddPlantForm = ({
+  handleAddPlantData,
+  handleSubmit,
+  register,
+  handleImageUpload,
+  isUploading,
+  imageURL
+}) => {
 
-const AddPlantForm = ({ handleAddPlantData, handleSubmit, register, handleImageUpload }) => {
   return (
     <div className='w-full min-h-[calc(100vh-40px)] flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
       <form onSubmit={handleSubmit(handleAddPlantData)} >
@@ -91,18 +99,28 @@ const AddPlantForm = ({ handleAddPlantData, handleSubmit, register, handleImageU
                 <div className='flex flex-col w-max mx-auto text-center'>
                   <label>
                     <input
-                      onClick={handleImageUpload}
                       className='text-sm cursor-pointer w-36 hidden'
+                      onChange={handleImageUpload}
                       type='file'
                       name='image'
                       id='image'
                       accept='image/*'
                       hidden
+
                     />
                     <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500'>
                       Upload
                     </div>
                   </label>
+                  {imageURL && (
+                    <div className='w-full'>
+                      <img
+                        className='w-[100px]'
+                        src={imageURL}
+                        alt='plant image'
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -110,9 +128,13 @@ const AddPlantForm = ({ handleAddPlantData, handleSubmit, register, handleImageU
             {/* Submit Button */}
             <button
               type='submit'
-              className='w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 '
+              className='bg-lime-500 w-full rounded-md py-3 text-white'
             >
-              Save & Continue
+              {isUploading ? (
+                <TbFidgetSpinner className='animate-spin m-auto' />
+              ) : (
+                'Save & Continue'
+              )}
             </button>
           </div>
         </div>
