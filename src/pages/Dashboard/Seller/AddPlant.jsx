@@ -55,9 +55,9 @@ const AddPlant = () => {
         name: user.displayName,
         email: user.email,
         userPhoto: user.photoURL,
-
       }
-      const finalData = { ...formData, userData: userInfo, Image: imageURL };
+       
+      const finalData = { ...formData,  userData: userInfo, Image: imageURL };
       console.log("Sending:", finalData);
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-plant`,

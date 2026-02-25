@@ -7,14 +7,15 @@ import { useLoaderData } from 'react-router'
 import useAuth from '../../hooks/useAuth'
 
 const PlantDetails = () => {
-  const{ quantity ,price ,userData,name, description ,category,Image,} =useLoaderData() || {};
-  const {user} = useAuth()
+  const plant = useLoaderData()
+  const { quantity, price, userData, name, description, category, Image, } = plant || {};
+  const { user } = useAuth()
   let [isOpen, setIsOpen] = useState(false)
 
   const closeModal = () => {
     setIsOpen(false)
   }
-console.log(user)
+  // console.log(user)
   return (
     <Container>
       <div className='mx-auto flex flex-col lg:flex-row justify-between w-full gap-12'>
@@ -41,7 +42,7 @@ console.log(user)
             className='
           text-lg font-light text-neutral-500'
           >
-           {description}
+            {description}
           </div>
           <hr className='my-6' />
 
@@ -82,12 +83,15 @@ console.log(user)
           <div className='flex justify-between'>
             <p className='font-bold text-3xl text-gray-500'>Price: {price}$</p>
             <div>
-              <Button onClick={() => setIsOpen(true)} label='Purchase' />
+              <Button
+                disabled={!user}
+                onClick={() => setIsOpen(true)}
+                label={user ? 'Purchase' : 'Login to purchase'} />
             </div>
           </div>
           <hr className='my-6' />
 
-          <PurchaseModal closeModal={closeModal} isOpen={isOpen} />
+          <PurchaseModal closeModal={closeModal} isOpen={isOpen} plant={plant} />
         </div>
       </div>
     </Container>
