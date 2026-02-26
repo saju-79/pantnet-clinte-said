@@ -127,6 +127,7 @@ const AddPlantForm = ({
 
             {/* Submit Button */}
             <button
+              disabled={isUploading}
               type='submit'
               className='bg-lime-500 w-full rounded-md py-3 text-white'
             >

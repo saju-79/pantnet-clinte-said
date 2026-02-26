@@ -24,7 +24,7 @@ const PlantDetails = () => {
           <div>
             <div className='w-full overflow-hidden rounded-xl'>
               <img
-                className='object-cover w-full'
+                className='object-cover w-full '
                 src={Image}
                 alt='header image'
               />
@@ -84,7 +84,7 @@ const PlantDetails = () => {
             <p className='font-bold text-3xl text-gray-500'>Price: {price}$</p>
             <div>
               <Button
-                disabled={!user}
+                disabled={!user || user?.email === userData.email}
                 onClick={() => setIsOpen(true)}
                 label={user ? 'Purchase' : 'Login to purchase'} />
             </div>

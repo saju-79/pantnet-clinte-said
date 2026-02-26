@@ -5,10 +5,12 @@ import { toast } from 'react-hot-toast'
 import { TbFidgetSpinner } from 'react-icons/tb'
 // import { useState } from 'react'
 import axios from 'axios'
+import { saveUserInDb } from '../../hooks/api/until'
+import { useState } from 'react'
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading ,setUser, } = useAuth()
-  // const { setupurl, setSetupurl } = useState('')
+  const [wait, setwait] = useState(false);
+  const { createUser, updateUserProfile, signInWithGoogle, loading, setUser, } = useAuth();
   const navigate = useNavigate()
   // form submit handler
   const handleSubmit = async event => {
@@ -32,23 +34,34 @@ const SignUp = () => {
       // 2nd step
       const res = await axios.post(apiKey, formData);
       const urlimage = res.data.data.display_url;
-      console.log(urlimage, "adsadds asiii")
-      setUser(urlimage)
-      
+      setwait(true)
+
       //2. User Registration
-      const result = await createUser(email, password)
+      await createUser(email, password)
+      const userData = {
+        name: name,
+        email: email,
+        photoURL: urlimage,
+        creationTime: new Date().toISOString(),
+        lastSignInTime: new Date().toISOString(),
+        role: 'customer',
+      }
+      // uplod user db
+      await saveUserInDb(userData)
       //3. Save username & profile photo
       await updateUserProfile(
         name,
         urlimage,
       )
-      console.log(result)
+      // console.log(result)
 
       navigate('/')
-      toast.success('Signup Successful')
+      toast.success("Registration successful! Your account is ready ! ✅");
     } catch (err) {
       console.log(err)
       toast.error(err?.message)
+    } finally {
+      setwait(false)
     }
   }
 
@@ -56,10 +69,20 @@ const SignUp = () => {
   const handleGoogleSignIn = async () => {
     try {
       //User Registration using google
-      await signInWithGoogle()
-
+      const result = await signInWithGoogle()
+      setUser(result)
+      const userData = {
+        name: result?.user?.displayName,
+        email: result?.user?.email,
+        photoURL: result?.user?.photoURL,
+        creationTime: result?.user?.metadata?.creationTime,
+        lastSignInTime: result?.user?.metadata?.lastSignInTime,
+        role: 'customer',
+      }
+      // uplod user Db
+      await saveUserInDb(userData)
       navigate('/')
-      toast.success('Signup Successful')
+      toast.success("Signed up with Google successfully! 🎉");
     } catch (err) {
       console.log(err)
       toast.error(err?.message)
@@ -139,6 +162,7 @@ const SignUp = () => {
           <div>
             <button
               type='submit'
+              disabled={loading || wait}
               className='bg-lime-500 w-full rounded-md py-3 text-white'
             >
               {loading ? (

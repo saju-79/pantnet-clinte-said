@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
     const { user } = useAuth();
@@ -11,7 +12,7 @@ const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
     const elements = useElements();
     const [loading, setLoading] = useState(false);
     const [clientSecret, setClientSecret] = useState("");
-    // const axiosSecure = useAxiosSecure();
+    const axiosSecure = useAxiosSecure();
 
     // 🔹 Get Client Secret
     useEffect(() => {
@@ -79,8 +80,7 @@ const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
             // save order data in db
 
             try {
-                const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/order`, orderData)
-                console.log(data)
+                const { data } = await axiosSecure.post(`/order`, orderData);
                 if (data?.insertedId) {
                     toast.success("Order placed successfully! 🎉");
                 }
