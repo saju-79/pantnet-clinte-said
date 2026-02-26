@@ -24,7 +24,7 @@ const AddPlant = () => {
     e.preventDefault()
     // e.target.reset()
     const image = e.target.files[0];
-    if(!image){
+    if (!image) {
       return "image not  a reured"
     }
     // console.log(image ,"imsge asiiii ")
@@ -40,24 +40,26 @@ const AddPlant = () => {
       setImageURL(url)
       // console.log(url, "sdsdsjdsahjf  aso")
     } catch (err) {
-       toast.error(err?.message)
+      toast.error(err?.message)
       console.log(err)
-    }finally{
+    } finally {
       setIsUploading(false)
     }
-    
+
   }
 
   console.log(imageURL)
   const handleAddPlantData = async (formData) => {
+    const quant = parseInt(formData?.quantity);
+    const price = parseInt(formData?.price);
     try {
       const userInfo = {
         name: user.displayName,
         email: user.email,
         userPhoto: user.photoURL,
       }
-       
-      const finalData = { ...formData,  userData: userInfo, Image: imageURL };
+
+      const finalData = { ...formData, quantity: quant, price: price, userData: userInfo, Image: imageURL };
       console.log("Sending:", finalData);
       const { data } = await axios.post(
         `${import.meta.env.VITE_API_URL}/add-plant`,

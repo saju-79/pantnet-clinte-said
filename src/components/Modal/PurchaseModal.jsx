@@ -7,7 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import CheckoutForm from '../Form/CheckoutForm';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PK);
-const PurchaseModal = ({ closeModal, isOpen, plant }) => {
+const PurchaseModal = ({ closeModal, isOpen, plant, fetchPlant }) => {
   const { user, } = useAuth()
   // const { loading, setLoding } = useState(false)
   const { quantity, price, name, category, userData, _id, Image, } = plant || {};
@@ -22,8 +22,8 @@ const PurchaseModal = ({ closeModal, isOpen, plant }) => {
 
     },
     plantId: _id,
-    quantity: 1,
-    price: price,
+    quantity: selectedQuantity,
+    price: totalPrice,
     plantName: name,
     plantCategory: category,
     plantImage: Image,
@@ -154,6 +154,7 @@ const PurchaseModal = ({ closeModal, isOpen, plant }) => {
                     closeModal={closeModal}
                     totalPrice={totalPrice}
                     orderData={orderData}
+                    fetchPlant={fetchPlant}
                   />
                 </Elements>
               </div>

@@ -6,7 +6,8 @@ import { TbFidgetSpinner } from "react-icons/tb";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
-const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
+const CheckoutForm = ({ closeModal, totalPrice, orderData, fetchPlant }) => {
+    console.log(orderData?.quantity ,orderData?.plantId , "asadashdajsdhas")
     const { user } = useAuth();
     const stripe = useStripe();
     const elements = useElements();
@@ -23,8 +24,8 @@ const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
                 const { data } = await axios.post(
                     `${import.meta.env.VITE_API_URL}/create-payment-intent`,
                     {
-                        plantId: orderData.plantId,
-                        quantity: orderData.quantity,
+                        plantId: orderData?.plantId,
+                        quantity: orderData?.quantity,
                     }
                 );
 
@@ -48,14 +49,6 @@ const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
 
         const card = elements.getElement(CardElement);
 
-        /* const { error, paymentIntent } = await stripe.confirmCardPayment(
-            clientSecret,
-            {
-                payment_method: {
-                    card: card,
-                },
-            }
-        ); */
         // Confirm card payment with billing details
         const result = await stripe.confirmCardPayment(clientSecret, {
             payment_method: {
@@ -88,7 +81,7 @@ const CheckoutForm = ({ closeModal, totalPrice, orderData }) => {
                     ` ${import.meta.env.VITE_API_URL}/quantity-update/${orderData?.plantId}`,
                     { quantityToUpdate: orderData?.quantity, status: 'decrease' }
                 )
-                // fetchPlant()
+                fetchPlant()
                 console.log(result)
             } catch (err) {
                 console.log(err)

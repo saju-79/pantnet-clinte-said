@@ -6,6 +6,7 @@ const UpdatePlantModal = ({ setIsEditModalOpen, isOpen }) => {
   return (
     <Dialog
       open={isOpen}
+      
       as='div'
       className='relative z-10 focus:outline-none '
       onClose={() => setIsEditModalOpen(false)}
