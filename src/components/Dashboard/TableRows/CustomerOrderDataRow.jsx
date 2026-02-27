@@ -96,7 +96,7 @@ const CustomerOrderDataRow = ({ order, }) => {
         <p
           className={`inline-flex items-center gap-1 px-1 text-emerald-400 py-1 text-sm font-bold rounded-full w-fit ${style}`}
         >
-          {status === "Deliver" && "✔ "}
+          {status === "Delivered" && "✔ "}
           {status === "Cancelled" && "✖ "}
           {status === "Pending" && "⏳ "}
           {status === "Processing" && "🕒 "}
@@ -106,7 +106,7 @@ const CustomerOrderDataRow = ({ order, }) => {
 
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <button
-          disabled={isPending}
+          disabled={isPending || status === "Delivered"}
           onClick={() => setIsOpen(true)}
           className='relative disabled:cursor-not-allowed cursor-pointer inline-block px-3 py-1 font-semibold text-lime-900 leading-tight'
         >
@@ -122,12 +122,12 @@ const CustomerOrderDataRow = ({ order, }) => {
       </td>
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <button
+          disabled={status === "Delivered" || isPending}
           onClick={() => {
             if (window.confirm('Are you sure you want to delete this order?')) {
               Delete()
             }
           }}
-          disabled={isPending}
           className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition duration-200
           ${isPending
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'

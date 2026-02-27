@@ -2,6 +2,7 @@ import { Dialog, DialogPanel, DialogTitle } from '@headlessui/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import useAxiosSecure from '../../hooks/useAxiosSecure'
 import toast from 'react-hot-toast'
+import { TbFidgetSpinner } from 'react-icons/tb'
 
 const UpdateUserRoleModal = ({
     isOpen,
@@ -80,7 +81,7 @@ const UpdateUserRoleModal = ({
                                 disabled={mutation.isPending}
                                 className='flex-1 bg-green-500 hover:bg-green-600 text-white font-medium py-3 rounded-xl transition duration-200 disabled:opacity-50'
                             >
-                                {mutation.isPending ? 'Updating...' : 'Update'}
+                                {mutation.isPending ? <TbFidgetSpinner className='animate-spin m-auto' /> : 'Update'}
                             </button>
 
                             <button

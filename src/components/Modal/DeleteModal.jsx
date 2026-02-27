@@ -34,7 +34,7 @@ const DeleteModal = ({ isOpen, closeModal, mutate }) => {
               ⚠
             </div>
             <DialogTitle className="text-lg font-semibold text-gray-900">
-              Confirm Order Cancel
+              Confirm  Cancel
             </DialogTitle>
           </div>
 
