@@ -30,12 +30,18 @@ const UserDataRow = ({ user }) => {
       <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm'>
         <p
           className={`flex items-center gap-1 px-3 py-1 text-sm font-medium rounded-full w-fit
-              ${status
+              ${status === "verified"
               ? "bg-emerald-100 text-emerald-600"
-              : "bg-red-100 text-red-500"
+              : status === "requested"
+                ? "bg-yellow-100 text-yellow-700 font-bold"
+                : "bg-red-100 text-red-500"
             }`}
         >
-          {status ? "✔ " + status : "✖ Unavailable"}
+          {status === "verified"
+            ? "✔ Verified"
+            : status === "requested"
+              ? "⏳ Requested"
+              : "✖ Unavailable"}
         </p>
       </td>
 

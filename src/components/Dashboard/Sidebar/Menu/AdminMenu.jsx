@@ -5,7 +5,7 @@ import { BsGraphUp } from 'react-icons/bs'
 const AdminMenu = () => {
   return (
     <>
-      <MenuItem icon={BsGraphUp} label='Statistics' address='/dashboard/statistics' />
+      {/* <MenuItem icon={BsGraphUp} label='Statistics' address='/dashboard/statistics' /> */}
       <MenuItem icon={FaUserCog} label='Manage Users' address='manage-users' />
     </>
   )
