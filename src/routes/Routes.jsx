@@ -21,17 +21,16 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
-    errorElement: <ErrorPage />,
+    // errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
         element: <Home />,
-        loader: () => fetch(`${import.meta.env.VITE_API_URL}/plant`)
+        // loader: () => fetch(`${import.meta.env.VITE_API_URL}/plant`)
       },
       {
         path: '/plant/:id',
         element: <PlantDetails />,
-        // loader: ({params}) => fetch(`${import.meta.env.VITE_API_URL}/plant/${params.id}`)
       },
     ],
   },
