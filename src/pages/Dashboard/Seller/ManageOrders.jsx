@@ -2,22 +2,44 @@ import { useQuery } from '@tanstack/react-query'
 import SellerOrderDataRow from '../../../components/Dashboard/TableRows/SellerOrderDataRow'
 import useAxiosSecure from '../../../hooks/useAxiosSecure'
 import LoadingSpinner from '../../../components/Shared/LoadingSpinner';
+import useAuth from '../../../hooks/useAuth';
 
 const ManageOrders = () => {
+  const { user } = useAuth()
   const axiosSecure = useAxiosSecure();
-  const {
-    data: confromorders = [], isLoading, refetch } = useQuery({
-      queryKey: ['orders'],
-      queryFn: async () => {
-        const { data } = await axiosSecure(`/orders/conformorders`)
-        return data
-      },
-    })
+  const { data: confromorders = [], isLoading, refetch } = useQuery({
+    queryKey: ['orders', user?.email],
+    enabled: !!user?.email, // 🔥 VERY IMPORTANT
+    queryFn: async () => {
+      const { data } = await axiosSecure(
+        `/orders/conformorders/${user.email}`
+      );
+      return data;
+    },
+  });
   if (isLoading) return <LoadingSpinner />
 
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
+
+        <div className="bg-gradient-to-r from-green-500 to-emerald-200 
+                text-white rounded-2xl p-6 shadow-lg 
+                flex items-center justify-between">
+
+          <div>
+            <p className="text-lg opacity-80 font-bold">Confirmed Orders</p>
+            <h1 className="text-4xl font-extrabold">
+              {confromorders?.length || 0} {/* safe length */}
+            </h1>
+          </div>
+
+          <div className="text-5xl opacity-30">
+            ✅ {/* or any emoji/icon you like */}
+          </div>
+        </div>
+
+
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
@@ -71,9 +93,9 @@ const ManageOrders = () => {
                       scope='col'
                       className='px-5 py-3 bg-white  border-b border-gray-200 text-gray-800  text-left text-sm uppercase font-normal'
                     >
-                      Delete 
+                      Delete
                     </th>
-                    
+
                   </tr>
                 </thead>
                 <tbody>

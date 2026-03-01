@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAuth from "../../../hooks/useAuth";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AddPlant = () => {
   const { user } = useAuth()
@@ -48,6 +49,7 @@ const AddPlant = () => {
 
   }
 
+  const axiosSecure = useAxiosSecure()
   console.log(imageURL)
   const handleAddPlantData = async (formData) => {
     const quant = parseInt(formData?.quantity);
@@ -58,20 +60,21 @@ const AddPlant = () => {
         email: user.email,
         userPhoto: user.photoURL,
       }
-
       const finalData = { ...formData, quantity: quant, price: price, userData: userInfo, Image: imageURL };
       console.log("Sending:", finalData);
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API_URL}/add-plant`,
-        finalData
-      )
-      toast.success('Plant Data Added Successfully, Yeee!')
-      console.log(!data)
+      const { data } = await axiosSecure.post('/add-plant', finalData);
 
+      if (data?.insertedId) {
+        toast.success('🌿 Plant Data Added Successfully!');
+      }
+
+      console.log(data);
 
     } catch (error) {
       console.error("Post Error:", error.response?.data || error.message);
-    };
+      toast.error('Something went wrong!');
+    }
+
     reset();
   };
 

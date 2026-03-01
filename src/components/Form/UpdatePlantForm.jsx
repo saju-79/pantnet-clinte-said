@@ -1,7 +1,11 @@
-const UpdatePlantForm = () => {
+import LoadingSpinner from "../Shared/LoadingSpinner";
+
+const UpdatePlantForm = ({ plant, register, handleSubmit, handleUpdatePlant, loading }) => {
+  const { quantity, price, name, description, category, Image } = plant || {};
+  if (loading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div className='w-full flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
-      <form>
+      <form onSubmit={handleSubmit(handleUpdatePlant)}>
         <div className='grid grid-cols-1 gap-10'>
           <div className='space-y-6'>
             {/* Name */}
@@ -11,12 +15,14 @@ const UpdatePlantForm = () => {
               </label>
               <input
                 className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                name='name'
+                {...register("name")}
                 id='name'
                 type='text'
                 placeholder='Plant Name'
+                defaultValue={name}
                 required
               />
+
             </div>
             {/* Category */}
             <div className='space-y-1 text-sm'>
@@ -26,7 +32,9 @@ const UpdatePlantForm = () => {
               <select
                 required
                 className='w-full px-4 py-3 border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                name='category'
+
+                {...register('category')}
+                defaultValue={category}
               >
                 <option value='Indoor'>Indoor</option>
                 <option value='Outdoor'>Outdoor</option>
@@ -44,7 +52,9 @@ const UpdatePlantForm = () => {
                 id='description'
                 placeholder='Write plant description here...'
                 className='block rounded-md focus:lime-300 w-full h-32 px-4 py-3 text-gray-800  border border-lime-300 bg-white focus:outline-lime-500 '
-                name='description'
+
+                {...register('description')}
+                defaultValue={description}
               ></textarea>
             </div>
           </div>
@@ -59,9 +69,11 @@ const UpdatePlantForm = () => {
                 <input
                   className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
                   name='price'
+                  {...register('price')}
                   id='price'
                   type='number'
                   placeholder='Price per unit'
+                  defaultValue={price}
                   required
                 />
               </div>
@@ -73,10 +85,12 @@ const UpdatePlantForm = () => {
                 </label>
                 <input
                   className='w-full px-4 py-3 text-gray-800 border border-lime-300 focus:outline-lime-500 rounded-md bg-white'
-                  name='quantity'
+
+                  {...register('quantity')}
                   id='quantity'
                   type='number'
                   placeholder='Available quantity'
+                  defaultValue={quantity}
                   required
                 />
               </div>
@@ -97,6 +111,15 @@ const UpdatePlantForm = () => {
                     <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500'>
                       Upload Image
                     </div>
+                    {Image && (
+                      <div className='w-full'>
+                        <img
+                          className='w-[100px]'
+                          src={Image}
+                          alt='plant image'
+                        />
+                      </div>
+                    )}
                   </label>
                 </div>
               </div>

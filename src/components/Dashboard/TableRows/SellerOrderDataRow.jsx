@@ -9,6 +9,7 @@ import UpdateUserSatusModal from '../../Modal/UpdateUserSatusModal';
 const SellerOrderDataRow = ({ confromorder, refetch }) => {
   let [isOpen, setIsOpen] = useState(false);
   const closeModal = () => setIsOpen(false);
+  
   const axiosSecure = useAxiosSecure();
   const { quantity, price, customer, plantName, plantImage, _id: orderId, status } = confromorder || {};
   const [updatedStatus, setUpdatedStatus] = useState(status);

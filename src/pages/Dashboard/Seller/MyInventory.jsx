@@ -15,17 +15,32 @@ const MyInventory = () => {
         throw new Error("Failed to fetch plants");
       }
       const data = await res.json(); // <-- parse JSON
-      console.log( data , "redsdfsd")
+      // console.log( data , "redsdfsd")
       return data;
     },
   });
 
   if (isLoading) return <LoadingSpinner />;
 
-  console.log(plants);
+  // console.log(plants);
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
+        {/* <div className="bg-gradient-to-r from-green-500 to-emerald-400 
+                text-white rounded-2xl p-6 shadow-lg 
+                flex items-center justify-between">
+
+          <div>
+            <p className="text-lg opacity-80  font-bold  " >Total Plants</p>
+            <h1 className="text-4xl font-extrabold">
+              {plants?.length || 0}
+            </h1>
+          </div>
+
+          <div className="text-5xl  opacity-30">
+            🌱
+          </div>
+        </div> */}
         <div className='py-8'>
           <div className='-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto'>
             <div className='inline-block min-w-full shadow rounded-lg overflow-hidden'>
