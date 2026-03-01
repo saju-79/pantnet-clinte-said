@@ -6,13 +6,14 @@ import { router } from './routes/Routes'
 import AuthProvider from './providers/AuthProvider'
 import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import LoadingSpinner from './components/Shared/LoadingSpinner'
 const queryClient = new QueryClient();
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={router} fallbackElement={<LoadingSpinner></LoadingSpinner>} />
         <Toaster position='top-right' reverseOrder={false} />
       </AuthProvider>
     </QueryClientProvider>

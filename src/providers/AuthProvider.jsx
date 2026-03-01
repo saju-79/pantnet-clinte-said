@@ -71,12 +71,14 @@ const AuthProvider = ({ children }) => {
         })
       }
       setLoading(false)
-    })
+    });
+
     return () => {
       return unsubscribe()
     }
   }, [])
 
+  // if (loading) return <LoadingSpinner></LoadingSpinner>;    // wait until auth is ready
   const authInfo = {
     user,
     setUser,

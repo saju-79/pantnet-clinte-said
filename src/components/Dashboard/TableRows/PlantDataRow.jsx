@@ -2,10 +2,10 @@ import { useState } from 'react'
 import DeleteModal from '../../Modal/DeleteModal'
 import UpdatePlantModal from '../../Modal/UpdatePlantModal'
 
-const PlantDataRow = () => {
+const PlantDataRow = ({ plant }) => {
   let [isOpen, setIsOpen] = useState(false)
   const [isEditModalOpen, setIsEditModalOpen] = useState(false)
-
+  console.log(plant , "plants ditels")
   function openModal() {
     setIsOpen(true)
   }

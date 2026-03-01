@@ -8,6 +8,14 @@ export const axiosSecure = axios.create({
   withCredentials: true,
 })
 
+
+
+export const axiosSecurel = axios.create({
+  baseURL: import.meta.env.VITE_API_URL, // 🔥 MUST exist
+});
+
+
+
 const useAxiosSecure = () => {
   const navigate = useNavigate()
   const { logOut } = useAuth()

@@ -21,18 +21,11 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <MainLayout />,
-    // errorElement: <ErrorPage />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: '/',
         element: <Home />,
-        loader: async () => {
-          const res = await fetch(`${import.meta.env.VITE_API_URL}/plant`); // your API
-          const data = await res.json(); // convert response to JSON
-
-          // If API returns { plants: [...] }, extract the array
-          return Array.isArray(data) ? data : data.plants || [];
-        }
       },
       {
         path: '/plant/:id',
