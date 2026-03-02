@@ -23,21 +23,21 @@ const ManageOrders = () => {
     <>
       <div className='container mx-auto px-4 sm:px-8'>
 
-        <div className="bg-gradient-to-r from-green-500 to-emerald-200 
+        {/* <div className="bg-gradient-to-r from-green-500 to-emerald-200 
                 text-white rounded-2xl p-6 shadow-lg 
                 flex items-center justify-between">
 
           <div>
             <p className="text-lg opacity-80 font-bold">Confirmed Orders</p>
             <h1 className="text-4xl font-extrabold">
-              {confromorders?.length || 0} {/* safe length */}
+              {confromorders?.length || 0} 
             </h1>
           </div>
 
           <div className="text-5xl opacity-30">
-            ✅ {/* or any emoji/icon you like */}
+            ✅ 
           </div>
-        </div>
+        </div> */}
 
 
         <div className='py-8'>
