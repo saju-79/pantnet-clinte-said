@@ -1,7 +1,7 @@
 import LoadingSpinner from "../Shared/LoadingSpinner";
 
-const UpdatePlantForm = ({ plant, register, handleSubmit, handleUpdatePlant, loading }) => {
-  const { quantity, price, name, description, category, Image } = plant || {};
+const UpdatePlantForm = ({ plant, register, handleSubmit, handleUpdatePlant, loading, handleImageUpload, imageurl, isLoading }) => {
+  const { quantity, price, name, description, category } = plant || {};
   if (loading) return <LoadingSpinner></LoadingSpinner>
   return (
     <div className='w-full flex flex-col justify-center items-center text-gray-800 rounded-xl bg-gray-50'>
@@ -102,31 +102,33 @@ const UpdatePlantForm = ({ plant, register, handleSubmit, handleUpdatePlant, loa
                   <label>
                     <input
                       className='text-sm cursor-pointer w-36 hidden'
+                      onChange={handleImageUpload}
                       type='file'
                       name='image'
                       id='image'
                       accept='image/*'
                       hidden
+
                     />
                     <div className='bg-lime-500 text-white border border-gray-300 rounded font-semibold cursor-pointer p-1 px-3 hover:bg-lime-500'>
-                      Upload Image
+                      Upload
                     </div>
-                    {Image && (
-                      <div className='w-full'>
-                        <img
-                          className='w-[100px]'
-                          src={Image}
-                          alt='plant image'
-                        />
-                      </div>
-                    )}
                   </label>
+                  {imageurl && (
+                    <div className='w-full'>
+                      <img
+                        className='w-[100px]'
+                        src={imageurl}
+                        alt='plant image'
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
-
             {/* Submit Button */}
             <button
+              disabled={loading || isLoading}
               type='submit'
               className='w-full p-3 mt-5 text-center font-medium text-white transition duration-200 rounded shadow-md bg-lime-500 '
             >

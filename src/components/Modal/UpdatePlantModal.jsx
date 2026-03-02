@@ -4,8 +4,12 @@ import { toast } from 'react-hot-toast';
 import useAxiosSecure from '../../hooks/useAxiosSecure';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import axios from 'axios';
 
 const UpdatePlantModal = ({ isOpen, setIsEditModalOpen, plant }) => {
+  const [isloading, setIsUploading] = useState(false);
+  const [imageurl, setImageURL] = useState(plant.Image);
   const axiosSecure = useAxiosSecure();
   const queryClient = useQueryClient();
   // console.log(plant._id)
@@ -14,10 +18,47 @@ const UpdatePlantModal = ({ isOpen, setIsEditModalOpen, plant }) => {
     handleSubmit,
     register
   } = useForm();
+
+  //  photo update
+  const handleImageUpload = async e => {
+    setIsUploading(true)
+    e.preventDefault()
+    // e.target.reset()
+    const image = e.target.files[0];
+    if (!image) {
+      return "image not  a reured"
+    }
+    // console.log(image ,"imsge asiiii ")
+    try {
+      // 1. store the img from data 
+      const formData = new FormData();
+      formData.append("image", image);
+      // 🔑 Replace YOUR_IMGBB_API_KEY with your imgbb API key
+      const apiKey = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_key}`;
+      // 2nd step
+      const res = await axios.post(apiKey, formData);
+      const url = res.data.data.display_url;
+      setImageURL(url)
+      // console.log(url, "sdsdsjdsahjf  aso")
+    } catch (err) {
+      toast.error(err?.message)
+      console.log(err)
+    } finally {
+      setIsUploading(false)
+    }
+
+  }
+  // console.log(imageurl,)
+
   // ✅ Define mutation at the top level
   const mutation = useMutation({
     mutationFn: async (updatedData) => {
-      const { data } = await axiosSecure.patch(`/seller/plants/${plant._id}`, updatedData);
+      const price = parseInt(updatedData.price);
+      const quantity = parseInt(updatedData.quantity);
+
+
+      const updatedDatas = { ...updatedData, Image: imageurl, price, quantity }
+      const { data } = await axiosSecure.patch(`/seller/plants/${plant._id}`, updatedDatas);
       return data;
     },
     onSuccess: (data) => {
@@ -47,8 +88,6 @@ const UpdatePlantModal = ({ isOpen, setIsEditModalOpen, plant }) => {
       toast.error('Failed to update plant');
     },
   });
-
-
   const handleUpdatePlant = (updatedData) => {
     mutation.mutate(updatedData);
     console.log(updatedData, "update data ")
@@ -65,20 +104,25 @@ const UpdatePlantModal = ({ isOpen, setIsEditModalOpen, plant }) => {
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto">
         <div className="flex min-h-full items-center justify-center p-4">
           <DialogPanel className="w-full max-w-md bg-white p-6 backdrop-blur-2xl duration-300 ease-out shadow-xl rounded-2xl transform transition">
-            <DialogTitle
-              as="h3"
-              className="text-lg font-medium text-center leading-6 text-gray-900"
-            >
-              Update Plant Info
-            </DialogTitle>
+            <button >
+              <DialogTitle
+                as="h3"
+                className="text-lg font-medium text-center leading-6 text-gray-900"
+              >
+                Update Plant Info
+              </DialogTitle>
+            </button>
 
             <div className="mt-4 w-full">
               <UpdatePlantForm
                 plant={plant}                  // pass current plant data   // submit handler
-                register={register}
+                register={register}           // show loading if needed
                 handleSubmit={handleSubmit}
                 handleUpdatePlant={handleUpdatePlant}
-                loading={mutation.isLoading}          // show loading if needed
+                loading={mutation.isLoading}
+                handleImageUpload={handleImageUpload}
+                imageurl={imageurl}
+                isLoading={isloading}
               />
             </div>
 

@@ -22,7 +22,7 @@ const MyInventory = () => {
 
   if (isLoading) return <LoadingSpinner />;
 
-  // console.log(plants);
+  // console.log(plants); 
   return (
     <>
       <div className='container mx-auto px-4 sm:px-8'>
